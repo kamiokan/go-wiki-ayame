@@ -1,5 +1,249 @@
-<h1>Editing {{.Title}}</h1>
-<form action="/save/{{.Title}}" method="POST">
-    <div><textarea name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea></div>
-    <div><input type="submit" value="Save"></div>
-</form>
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>{{.Title}} 編集</title>
+    <style>
+        /* Reset CSS */
+        /*!
+         * ress.css • v1.2.2
+         * MIT License
+         * github.com/filipelinhares/ress
+         */html{box-sizing:border-box;overflow-y:scroll;-webkit-text-size-adjust:100%}*,:after,:before{background-repeat:no-repeat;box-sizing:inherit}:after,:before{text-decoration:inherit;vertical-align:inherit}*{padding:0;margin:0}audio:not([controls]){display:none;height:0}hr{overflow:visible}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}summary{display:list-item}small{font-size:80%}[hidden],template{display:none}abbr[title]{border-bottom:1px dotted;text-decoration:none}a{background-color:transparent;-webkit-text-decoration-skip:objects}a:active,a:hover{outline-width:0}code,kbd,pre,samp{font-family:monospace,monospace}b,strong{font-weight:bolder}dfn{font-style:italic}mark{background-color:#ff0;color:#000}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}input{border-radius:0}[role=button],[type=button],[type=reset],[type=submit],button{cursor:pointer}[disabled]{cursor:default}[type=number]{width:auto}[type=search]{-webkit-appearance:textfield}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}textarea{overflow:auto;resize:vertical}button,input,optgroup,select,textarea{font:inherit}optgroup{font-weight:700}button{overflow:visible}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:0;padding:0}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button:-moz-focusring{outline:1px dotted ButtonText}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}button,select{text-transform:none}button,input,select,textarea{background-color:transparent;border-style:none;color:inherit}select{-moz-appearance:none;-webkit-appearance:none}select::-ms-expand{display:none}select::-ms-value{color:currentColor}legend{border:0;color:inherit;display:table;max-width:100%;white-space:normal}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}img{border-style:none}progress{vertical-align:baseline}svg:not(:root){overflow:hidden}audio,canvas,progress,video{display:inline-block}@media screen{[hidden~=screen]{display:inherit}[hidden~=screen]:not(:active):not(:focus):not(:target){position:absolute!important;clip:rect(0 0 0 0)!important}}[aria-busy=true]{cursor:progress}[aria-controls]{cursor:pointer}[aria-disabled]{cursor:default}::-moz-selection{background-color:#b3d4fc;color:#000;text-shadow:none}::selection{background-color:#b3d4fc;color:#000;text-shadow:none}
+        /* CSS Document */
+
+        body {
+            font: 14px/1.6 "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", "ＭＳ Ｐゴシック", "MS PGothic", Verdana, Arial, sans-serif;
+            margin: 0;
+            color: #313131;
+        }
+
+        img {
+            outline: none;
+            border-style: none;
+        }
+
+        a {
+            color: blue;
+            -webkit-transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            transition: all 0.5s;
+        }
+
+        a:visited {
+            color: blue;
+            -webkit-transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            transition: all 0.5s;
+        }
+
+        a:hover {
+            color: #F5A862;
+            -webkit-transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            transition: all 0.5s;
+        }
+
+        /*****HEADER*****/
+        header {
+            display: block;
+            width: 60%;
+            margin-left: 20%;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 120%;
+            color: #313131;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: 1px solid #313131;
+            border-radius: 5px;
+            letter-spacing: 3px;
+            font-weight: 400;
+            float: left;
+        }
+
+        header p {
+            font-size: 100%;
+            color: #313131;
+            float: left;
+        }
+
+        /*****BRANDING*****/
+        #branding {
+            display: block;
+            width: 60%;
+            margin-left: 20%;
+            overflow: hidden;
+            background-color: #313131;
+            margin-bottom: 20px;
+            letter-spacing: 10px;
+            line-height: 60px;
+        }
+
+        #branding p {
+            color: #fff;
+            font-size: 120%;
+            padding-left: 3%;
+        }
+
+        /*****NAV*****/
+        nav {
+            width: 100%;
+            border-top: 1px solid orange;
+            border-bottom: 1px solid orange;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+
+        nav ul {
+            width: 60%;
+            margin-left: 20%;
+        }
+
+        nav li {
+            width: calc(25% - 2px);
+            font-size: 110%;
+            letter-spacing: 5px;
+            font-weight: 400;
+            line-height: 45px;
+            border-left: 1px solid orange;
+            color: #313131;
+            cursor: pointer;
+            text-align: center;
+            float: left;
+        }
+
+        nav li:last-child {
+            border-right: 1px solid orange;
+        }
+
+        nav li:hover {
+            background-color: orange;
+            transition: background-color 0.5s ease-out;
+            color: #fff;
+        }
+
+        /*****ARTICLE*****/
+        section {
+            display: block;
+            width: 60%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        article {
+            width: calc(50% - 15px);
+            padding: 2.5%;
+            margin-bottom: 30px;
+            background-color: #f9f9f9;
+            overflow: hidden;
+            float: left;
+        }
+
+        article:nth-child(2n) {
+            margin-left: 30px;
+        }
+
+        article .date {
+            font-size: 60%;
+            color: orange;
+            border: 1px solid orange;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            padding-right: 6px;
+            padding-left: 6px;
+            letter-spacing: 5px;
+            float: left;
+        }
+
+        article h1 {
+            width: 100%;
+            font-size: 150%;
+            color: #313131;
+            letter-spacing: 3px;
+            padding-bottom: 2px;
+            padding-top: 10px;
+            border-bottom: 1px solid #bababa;
+            margin-bottom: 15px;
+            float: left;
+        }
+
+        article p {
+            font-size: 100%;
+            color: #313131;
+            letter-spacing: 3px;
+            line-height: 200%;
+            margin-bottom: 10px;
+            float: left;
+        }
+
+        article .btn {
+            color: #fff;
+            border: 1px solid orange;
+            background-color: orange;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-right: 30px;
+            padding-left: 30px;
+            border-radius: 5px;
+            letter-spacing: 5px;
+            text-decoration: none;
+            overflow: hidden;
+            float: right;
+        }
+
+        article .btn:hover {
+            background-color: #fff;
+            border: 1px solid orange;
+            -webkit-transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            transition: all 0.5s;
+            color: orange;
+            overflow: hidden;
+        }
+
+        footer {
+            font-size: 80%;
+            width: 100%;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #313131;
+        }
+
+        footer address {
+            color: #fff;
+            letter-spacing: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+<header>
+    <h1>{{.Title}} 編集ページ</h1>
+</header>
+<div id="branding">
+    <p>Go wiki ayame</p>
+</div>
+<section>
+    <article>
+        <form action="/save/{{.Title}}" method="POST">
+            <div><textarea name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea></div>
+            <div><input type="submit" value="Save"></div>
+        </form>
+    </article>
+</section>
+<footer>
+    <address>Copyright(C)2019 kamioka nobuhiro, Allright Reserved.</address>
+</footer>
+</body>
+</html>
