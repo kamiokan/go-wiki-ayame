@@ -29,6 +29,15 @@ func loadPage(title string) (*Page, error) {
 
 var templates = template.Must(template.ParseFiles("tmpl/edit.html", "tmpl/view.html"))
 
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	rootname := "FrontPage"
+	_, err := loadPage(rootname)
+	if err != nil {
+		http.Redirect(w, r, "/edit/"+rootname, http.StatusFound)
+	}
+	http.Redirect(w, r, "/view/"+rootname, http.StatusFound)
+}
+
 func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := loadPage(title)
 	if err != nil {
@@ -78,6 +87,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 }
 
 func main() {
+	http.HandleFunc("/", rootHandler)
 	http.HandleFunc("/view/", makeHandler(viewHandler))
 	http.HandleFunc("/edit/", makeHandler(editHandler))
 	http.HandleFunc("/save/", makeHandler(saveHandler))
